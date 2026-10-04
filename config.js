@@ -7,7 +7,7 @@ window.MANDOR_CONFIG = {
   appName: 'RH System',
 
   // "Project URL" dari Supabase
-  supabaseUrl: 'https://YOUR-PROJECT.supabase.co',
+  supabaseUrl: 'https://ijtrffdzxszrsxxqittk.supabase.co',
 
   // Kunci "anon public" (BUKAN service_role). Aman terlihat publik karena
   // keamanan data dijaga aturan RLS di database.
