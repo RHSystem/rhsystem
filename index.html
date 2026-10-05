@@ -1579,6 +1579,22 @@ const A={
   'new-co':()=>modal(_tr('Perusahaan baru'),_h`<form data-form="newco">${fld(_tr('Nama perusahaan'),`<input name="name" required>`)}<div class="btns"><button type="button" class="btn" data-act="close-modal">Batal</button><button class="btn primary" type="submit">Buat perusahaan</button></div></form>`),
   'member-rm':el=>{const uid_=el.dataset.uid;confirmBox(_tr('Anggota ini akan dikeluarkan dari perusahaan.'),async()=>{const {error}=await SB.from('members').delete().eq('company_id',COMPANY.id).eq('user_id',uid_);toast(error?errMsg(error):_tr('Anggota dihapus'));loadTeam()},_tr('Hapus anggota'))},
   'invite-cancel':async el=>{const {error}=await SB.from('invites').delete().eq('id',el.dataset.id);toast(error?errMsg(error):_tr('Undangan dibatalkan'));loadTeam()},
+  'proj-tab':el=>{ui.projTab=el.dataset.v;render()},
+  'recv-view':el=>{ui.recvView=el.dataset.v;render()},
+  'new-client':()=>clientForm(),
+  'edit-client':el=>clientForm((S.clients||[]).find(c=>c.id===el.dataset.id)),
+  'client-open':el=>{if(el.dataset.id)openClient(el.dataset.id)},
+  'del-client':el=>{
+    const id=el.dataset.id;
+    if([...S.projects,...S.quotes,...S.invoices].some(r=>r.clientId===id)){toast(_tr('Klien punya proyek atau dokumen. Ubah nama klien di sana dulu untuk menghapus.'));return}
+    S.clients=S.clients.filter(c=>c.id!==id);save();closeModal();render();toast(_tr('Klien dihapus'));
+  },
+  'client-wa':el=>{
+    const c=(S.clients||[]).find(x=>x.id===el.dataset.id),r=receivables().rows.find(x=>x.id===c.id)||{value:0,paid:0,remaining:0},w=clientWaInfo(c,r);
+    modal(_tr('Kirim lewat WhatsApp'),_h`<p class="muted" style="margin-top:0">${w.hasPhone?_tr('Tekan Buka WhatsApp, atau salin pesan lalu tempel sendiri di chat klien'):_tr('Nomor klien belum diisi. Salin pesan lalu tempel di chat klien')}.</p><textarea id="wam" rows="9">${esc(w.text)}</textarea>
+    <div class="btns"><button class="btn" data-act="copy-text" data-src="wam">Salin pesan</button>${w.hasPhone?_h`<a class="btn primary" href="${w.url}" target="_blank" rel="noopener noreferrer">Buka WhatsApp</a>`:''}</div>`);
+  },
+  'csv-recv':()=>saveCsv('piutang-'+todayStr()+'.csv',[[_tr('Klien'),_tr('Proyek'),_tr('Nilai kontrak'),_tr('Sudah dibayar'),_tr('Sisa piutang'),_tr('Ditagih, belum dibayar'),_tr('Belum ditagih')],...S.projects.filter(p=>p.status!=='prospect').map(p=>{const r=projReceivable(p);return[p.client,p.name,r.value,r.paid,r.remaining,r.invOpen,r.unbilled]})]),
   'fin-tab':el=>{ui.finTab=el.dataset.v;render()},
   'new-vendor':()=>vendorForm(),
   'edit-vendor':el=>vendorForm(S.vendors.find(v=>v.id===el.dataset.id)),
@@ -1693,7 +1709,7 @@ const A={
     if(S.projects.length||S.tx.length)confirmBox(_tr('Data contoh akan ditambahkan ke data yang sudah ada.'),go,_tr('Tambahkan'));else go();
   }
 };
-const RO_OK=new Set(['close-modal','auth-tab','fin-tab','task-tab','doc-tab','proj-filter','doc-open','doc-preview','doc-wa','rc-open','rc-pdf','pv-close','pv-print','pv-pdf','csv-proj','csv-tx','export','open-project','vendor-open','bill-open','worker-open','copy-text','logout','go-att','chpw','new-co','myname','google','resend','check-invites']);
+const RO_OK=new Set(['close-modal','auth-tab','fin-tab','task-tab','doc-tab','proj-filter','doc-open','doc-preview','doc-wa','rc-open','rc-pdf','pv-close','pv-print','pv-pdf','csv-proj','csv-tx','export','open-project','vendor-open','bill-open','worker-open','copy-text','logout','go-att','chpw','new-co','myname','google','resend','check-invites','proj-tab','recv-view','client-open','client-wa','csv-recv']);
 document.addEventListener('click',e=>{
   const sc=e.target.closest('.scrim');if(sc&&e.target===sc){closeModal();return}
   const el=e.target.closest('[data-act]');if(!el)return;
