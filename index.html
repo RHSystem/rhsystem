@@ -332,7 +332,7 @@ function _h(st,...v){
 /*NOTR_END*/
 /*NOTR_START*/
 let LANG=(()=>{try{const l=localStorage.getItem('RH System-lang');if(l==='id'||l==='en')return l}catch(e){}return (navigator.language||'id').toLowerCase().startsWith('id')?'id':'en'})();
-const LANGS={id:'Bahasa Indonesia',en:'English',my:'Malaysia'};
+const LANGS={id:'Bahasa Indonesia',en:'English',ms:'Malaysia'};
 const LOC=()=>LANG==='id'?'id-ID':'en-US';
 const CURS=(()=>{let l;try{l=Intl.supportedValuesOf('currency')}catch(e){}return l&&l.length?l:['IDR','USD','EUR','GBP','JPY','CNY','SGD','MYR','AUD','CAD','CHF','HKD','INR','KRW','THB','VND','PHP','NZD','SAR','AED','TRY','BRL','MXN','ZAR','RUB','SEK','NOK','DKK','PLN','CZK','HUF','EGP','NGN','KES','PKR','BDT','LKR','TWD','ILS','CLP','COP','ARS','PEN']})();
 const DEC0=['IDR','JPY','KRW','VND','CLP','ISK','UGX','XAF','XOF','XPF','PYG','RWF','KMF','GNF','DJF','BIF','VUV'];
