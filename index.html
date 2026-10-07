@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RH System – Aplikasi Kontraktor</title>
+<title>Mandor – Aplikasi Kontraktor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -272,12 +272,12 @@ label.btn:focus-within{outline:2px solid var(--info);outline-offset:2px}
 <body>
 <div id="app">
   <aside class="side" aria-label="Menu utama">
-    <a class="brand" href="#beranda"><i></i><span data-appname>RH System</span></a>
+    <a class="brand" href="#beranda"><i></i><span data-appname>Mandor</span></a>
     <nav id="sidenav"></nav>
     <div class="grow"></div>
     <nav><a class="nl" data-nav="pengaturan" href="#pengaturan"></a></nav>
   </aside>
-  <div class="mtop"><a class="brand" href="#beranda"><i></i><span data-appname>RH System</span></a><a class="icon-btn" href="#pengaturan" aria-label="Pengaturan" id="mset"></a></div>
+  <div class="mtop"><a class="brand" href="#beranda"><i></i><span data-appname>Mandor</span></a><a class="icon-btn" href="#pengaturan" aria-label="Pengaturan" id="mset"></a></div>
   <main class="main"><div id="view"></div></main>
   <nav class="tabbar" id="tabbar" aria-label="Menu utama"></nav>
 </div>
@@ -296,7 +296,7 @@ const _CFG=window.MANDOR_CONFIG||{};
 const SUPABASE_URL=_CFG.supabaseUrl||'https://YOUR-PROJECT.supabase.co';
 const SUPABASE_ANON_KEY=_CFG.supabaseAnonKey||'YOUR-ANON-KEY';
 const ENABLE_GOOGLE=!!_CFG.enableGoogle;
-const APP_NAME=String(_CFG.appName||'RH System');
+const APP_NAME=String(_CFG.appName||'Mandor');
 document.title=APP_NAME+' – '+(_CFG.tagline||'Aplikasi Kontraktor');
 
 /* Penyimpanan file di hosting biasa: unduh langsung lewat browser */
@@ -331,8 +331,8 @@ function _h(st,...v){
 }
 /*NOTR_END*/
 /*NOTR_START*/
-let LANG=(()=>{try{const l=localStorage.getItem('RH System-lang');if(l==='id'||l==='en')return l}catch(e){}return (navigator.language||'id').toLowerCase().startsWith('id')?'id':'en'})();
-const LANGS={id:'Bahasa Indonesia',en:'English',MY:'Malaysia'};
+let LANG=(()=>{try{const l=localStorage.getItem('mandor-lang');if(l==='id'||l==='en')return l}catch(e){}return (navigator.language||'id').toLowerCase().startsWith('id')?'id':'en'})();
+const LANGS={id:'Bahasa Indonesia',en:'English'};
 const LOC=()=>LANG==='id'?'id-ID':'en-US';
 const CURS=(()=>{let l;try{l=Intl.supportedValuesOf('currency')}catch(e){}return l&&l.length?l:['IDR','USD','EUR','GBP','JPY','CNY','SGD','MYR','AUD','CAD','CHF','HKD','INR','KRW','THB','VND','PHP','NZD','SAR','AED','TRY','BRL','MXN','ZAR','RUB','SEK','NOK','DKK','PLN','CZK','HUF','EGP','NGN','KES','PKR','BDT','LKR','TWD','ILS','CLP','COP','ARS','PEN']})();
 const DEC0=['IDR','JPY','KRW','VND','CLP','ISK','UGX','XAF','XOF','XPF','PYG','RWF','KMF','GNF','DJF','BIF','VUV'];
@@ -688,7 +688,7 @@ function accountPanel(){
   <div class="actions"><button class="btn" data-act="myname">Ubah nama</button><button class="btn" data-act="chpw">Ubah kata sandi</button>${COMPANIES.some(c=>c.role==='owner')?`<button class="btn" data-act="new-co">${_tr('Perusahaan baru')}</button>`:''}<button class="btn" data-act="logout">Keluar dari akun</button></div>${ROLE==='owner'?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><button class="btn danger sm" data-act="del-company">${_tr('Hapus perusahaan ini')}</button></div>`:''}</div><div id="teamBox"></div>`;
 }
 function setLang(l){
-  const old=LANG;LANG=l;try{localStorage.setItem('RH System-lang',l)}catch(e){}
+  const old=LANG;LANG=l;try{localStorage.setItem('mandor-lang',l)}catch(e){}
   document.documentElement.lang=l;
   if(S){
     const s=S.settings;
